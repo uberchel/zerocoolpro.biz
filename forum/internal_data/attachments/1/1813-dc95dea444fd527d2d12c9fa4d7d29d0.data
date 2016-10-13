@@ -1,0 +1,15 @@
+1. скопировать папку player в корень сайта.
+
+2. изменить api ключи для мунвалка на свои. В файах api.php и player.php.
+
+3. изменить домен celsoft.ru в файле api.php на свой.
+
+4. вставить код в шаблон полной новости и выставить нужные размеры:
+
+[xfgiven_moonwalkid]<script type='text/javascript' src='http://ССЫЛКА НА САЙТ/player/api.php?w=700&h=390&kp_id=[xfvalue_moonwalkid]&copy=[xfvalue_copy]'></script>
+<div id='moonwalkPlayer'></div>[/xfgiven_moonwalkid]
+
+Создать доп. поле с системным именем moonwalkid. В него при создании новости нужно указывать кинопоиск ид из базы мунвалка.
+
+5. закрывашка от правообладателей.
+создать доп. поле список с системным именем copy. со значениями no, yes

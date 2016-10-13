@@ -1,0 +1,31 @@
+﻿http://zerocoolpro.biz/forum/
+СЕО форум о продвижении киносайтов
+
+Секреты СЕО, монетизация трафика, модули и хаки.
+
+
+
+
+
+Установка DLE 10.6
+1)	Заливаем все себе на хост
+2)	Запускаем http://site.ru/pkinopoisk_install.php (на папку /engine/data должны быть права 777). После выполнения файл удалить.
+3)	Открываем файл \engine\inc\addnews.php
+Ищем код:
+			$author_info = "";
+	
+	}
+
+После него вставляем: 
+	include (ENGINE_DIR . '/inc/pkinopoisk_sc.php');
+
+3.1) Если хотите что парсер был при редактировании, то Открываем файл \engine\inc\editnews.php
+Ищем код:
+		if ($row['autor'] != $member_id['name'] AND $user_group[$member_id['user_group']]['allow_all_edit'] AND !$row['approve']) $spam_btn = "<button  onclick=\"MarkSpam('{$id}', '{$dle_login_hash}'); return false;\" class=\"btn btn-gold\"><i class=\"icon-minus-sign\"></i> {$lang['btn_spam']}</button>&nbsp;"; else $spam_btn = "";
+
+
+После него вставляем: 
+	include (ENGINE_DIR . '/inc/pkinopoisk_sc.php');
+
+4)	Идем в админку по адресу http://site.ru/admin.php?mod=pkinopoisk вводим свои данные для КиноПоиск (регистрации http://www.kinopoisk.ru/level/30/ ) – Желательно!
+5)	Пользуемся!

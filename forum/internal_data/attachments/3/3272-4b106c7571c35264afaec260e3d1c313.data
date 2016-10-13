@@ -1,0 +1,61 @@
+Удаление:
+
+1) Удалите все файлы и папки загруженные на сервер:
+
+	hdlight_cron.php
+	engine/ajax/hdlight.php
+	engine/classes/hdlight.class.php
+	engine/data/hdlightconfig.php
+	engine/inc/hdlight/
+	engine/inc/hdlight.php
+	engine/skins/images/hdlight.png
+	engine/skins/hdlight/
+
+2) Сделайте импорт файла базы db_clear.sql
+	(перед этим убедитесь что префикс названий таблиц идентичен вашей базе, если нет замените)
+
+3) В админпанели идём в "Список всех разделов" в низу страницы находим "Сторонние модули" далее находим модуль "HD Light" и удаляем
+
+4) Открыть файл engine/inc/addnews.php
+
+	удалите этот код:
+
+		/* HD Light Initialization Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Присоединяем к выводу доп. полей кнопку поиска на HD Light
+		$output .= $hdlight->get_button();
+
+		/* HD Light Initialization End */
+
+5) Открыть файл engine/inc/editnews.php
+
+	удалите этот код:
+
+		/* HD Light Initialization Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Присоединяем к выводу доп. полей кнопку поиска на HD Light
+		$output .= $hdlight->get_button();
+
+		/* HD Light Initialization End */
+
+6) Открыть файл engine/modules/show.full.php
+
+	удалите этот код:
+
+		/* HD Light Add Player Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Добавляем плеер
+		$hdlight->add_player($row);
+
+		/* HD Light Add Player Begin */
+
+7) Готово! =)

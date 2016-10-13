@@ -1,0 +1,83 @@
+<div class="fullstory">
+	<div class="shortstorytitle">
+		<div style="width: 120px;float: right;">
+			<span class="podrobnosti_right"><div itemscope="" itemtype="http://data-vocabulary.org/Review-aggregate">
+           [rating]
+  [rating-type-1]<div class="ratebox"><div class="rate">{rating}</div></div>[/rating-type-1]
+  [rating-type-2]<div class="ratebox2">
+      <ul class="reset">
+      <li>[rating-plus]<img src="{THEME}/images/like.png" title="Нравится" alt="Нравится" style="width:14px;" />[/rating-plus]</li>
+      <li>{rating}</li>
+      </ul></div>[/rating-type-2]
+  [rating-type-3]<div class="ratebox3">
+      <ul class="reset">
+        <li>[rating-minus]<img src="{THEME}/images/ratingminus.png" title="Не нравится" alt="Не нравится" style="width:14px;" />[/rating-minus]</li>
+        <li>{rating}</li>
+        <li>[rating-plus]<img src="{THEME}/images/ratingplus.png" title="Нравится" alt="Нравится" style="width:14px;" />[/rating-plus]</li>
+      </ul>
+      </div>[/rating-type-3]
+[/rating]               
+                      <span style="display:none;"><span itemprop="votes" id="vote-num-id-5305"><span id="selection_index7" class="selection_index"></span>{vote-num}</span></span></div></span>
+			<span class="izbrannoe"> <span class="favoriticon"> {favorites} </span></span>
+			
+		</div>
+	    <h1><span id="selection_index8" class="selection_index"></span> {title}</h1>
+    </div><!--shortstorytitle-->
+	<div class="fullimg">
+        <div id="news-id-5305" style="display:inline;"><!--TBegin:[xfvalue_poster_film]|left--><a href="[xfvalue_poster_film]" onclick="return hs.expand(this)"><img src="[xfvalue_poster_film]"  width="200" height="300" style="float:left;" alt="{title}" title="фото {title}"></a><!--TEnd--><span id="selection_index9" class="selection_index"></span> <br><br><b><span id="selection_index11" class="selection_index"></span>Год выпуска:</b> [xfvalue_year]<br><b><span id="selection_index12" class="selection_index"></span>Страна:</b> [xfvalue_country]<br><b><span id="selection_index13" class="selection_index"></span>Жанр:</b> [xfvalue_genre]<br><b><span id="selection_index14" class="selection_index"></span>Качество:</b> [xfvalue_quality]<br><b><span id="selection_index15" class="selection_index"></span>Перевод:</b> [xfvalue_postproduction]<br><b><span id="selection_index16" class="selection_index"></span>Продолжительность:</b> [xfvalue_time]<br><b><span id="selection_index17" class="selection_index"></span>Премьера (РФ):</b> [xfvalue_premera-rf]<br><br><b><span id="selection_index18" class="selection_index"></span>Режиссер:</b> [xfvalue_director]<br><b><span id="selection_index19" class="selection_index"></span>В ролях:</b> [xfvalue_rolax]</div>
+    	<br><br/>{full-story}
+    	<div class="screens"><!--TEnd--></div>
+    	<div class="stronk"><strong><span id="selection_index20" class="selection_index"></span>смотреть онлайн {title} в хорошем качестве</strong></div>
+	</div> 
+</div>
+<div style="clear:both"></div>
+
+
+<div class="section">
+    <div style="float:right; padding-top: 5px;padding-right: 10px;font-size:11px;">  <a href="#" target="_blank"><span id="selection_index21" class="selection_index"></span>Как смотреть на iPad?</a></div><!--div-->
+       	<ul class="tabs">
+           	<li class="current"><span id="selection_index22" class="selection_index"></span>Смотреть онлайн</li>
+		</ul>
+		<div style="clear:both"></div>
+       
+<div class="box visible" style="display: block; background: rgb(0, 0, 0);">
+				<iframe src="[pkpgiven_player]" width="610" height="370" frameborder="0"></iframe>
+
+        </div>
+</div>
+
+<div class="icons2">
+	<div style="padding-left:6px;">
+	<ul class="social-likes">
+        <li class="social-likes__widget social-likes__widget_vkontakte" title="Поделиться ссылкой во Вконтакте"><span class="social-likes__button social-likes__button_vkontakte"><span class="social-likes__icon social-likes__icon_vkontakte"></span><span id="selection_index25" class="selection_index"></span>Поделиться</span><span class="social-likes__counter social-likes__counter_vkontakte">32</span></li>
+		<li class="social-likes__widget social-likes__widget_facebook" title="Поделиться ссылкой на Фейсбуке"><span class="social-likes__button social-likes__button_facebook"><span class="social-likes__icon social-likes__icon_facebook"></span><span id="selection_index26" class="selection_index"></span>Нравится</span><span class="social-likes__counter social-likes__counter_facebook">53</span></li>
+		<li class="social-likes__widget social-likes__widget_twitter" title="Поделиться ссылкой в Твиттере"><span class="social-likes__button social-likes__button_twitter"><span class="social-likes__icon social-likes__icon_twitter"></span><span id="selection_index27" class="selection_index"></span>Твитнуть</span><span class="social-likes__counter social-likes__counter_twitter">3</span></li>
+		<li class="social-likes__widget social-likes__widget_odnoklassniki" title="Поделиться ссылкой в Одноклассниках"><span class="social-likes__button social-likes__button_odnoklassniki"><span class="social-likes__icon social-likes__icon_odnoklassniki"></span><span id="selection_index28" class="selection_index"></span>Класс!</span><span class="social-likes__counter social-likes__counter_odnoklassniki">61</span></li>
+	    <li class="social-likes__widget social-likes__widget_mailru" title="Поделиться ссылкой в Моём мире"><span class="social-likes__button social-likes__button_mailru"><span class="social-likes__icon social-likes__icon_mailru"></span><span id="selection_index29" class="selection_index"></span>Нравится</span><span class="social-likes__counter social-likes__counter_mailru">6</span></li>
+	</ul>
+	</div> 
+</div><!--icons2-->
+
+<div class="relatednews_title">
+	<i><span id="selection_index30" class="selection_index"></span>Рекомендуем посмотреть</i>
+</div><!--related-->
+
+<div class="relatednews">
+	<ul class="ul_related">
+        
+        {related-news}
+        
+        </ul> 
+</div><!--relatednews-->
+<div style="clear:both"></div>
+
+<span class="sociallll" style="padding:25px 20px 20px 20px;">
+	
+	<span class="dateicon" title="Дата"><span id="selection_index37" class="selection_index"></span>{date}</span> 
+ 	
+    
+    <span class="editicon" title="Редактировать">
+    	[edit]Редактировать[/edit] 
+ </span>
+    
+</span><div style="clear:both"></div>

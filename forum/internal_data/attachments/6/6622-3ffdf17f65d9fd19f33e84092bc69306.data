@@ -1,0 +1,166 @@
+Инструкция :
+Открыть .htaccess найти :
+RewriteRule ^([^.]+)/page,([0-9]+),([0-9]+),([0-9]+)-(.*).html$ index.php?newsid=$4&news_page=$2&cstart=$3&seourl=$5&seocat=$1 [L]
+RewriteRule ^([^.]+)/page,([0-9]+),([0-9]+)-(.*).html$ index.php?newsid=$3&news_page=$2&seourl=$4&seocat=$1 [L]
+RewriteRule ^([^.]+)/print:page,([0-9]+),([0-9]+)-(.*).html$ engine/print.php?news_page=$2&newsid=$3&seourl=$4&seocat=$1 [L]
+RewriteRule ^([^.]+)/([0-9]+)-(.*).html$ index.php?newsid=$2&seourl=$3&seocat=$1 [L]
+
+Заменить на (где cat2 и cat3 альтернативное имя категории, задавать через разделитель | (без пробелов) если подкатегория то задавать cat/cat2 и следовательно так далее, если категориия в подкатегории):
+RewriteRule ^(cat2|cat3)/page,([0-9]+),([0-9]+),(.*)$ index.php?news_page=$2&cstart=$3&seourl=$4&seocat=$1 [L]
+RewriteRule ^(cat2|cat3)/page,([0-9]+),(.*)$ index.php?news_page=$2&seourl=$3&seocat=$1 [L]
+RewriteRule ^(cat2|cat3)/print:page,([0-9]+),(.*)$ engine/print.php?news_page=$2&seourl=$3&seocat=$1 [L]
+RewriteRule ^(cat2|cat3)/?$ index.php?do=cat&category=$1 [L]
+RewriteRule ^(cat2|cat3)/(.*)$ index.php?seourl=$2&seocat=$1 [L]
+
+Открыть /engine/modules/show.short.php и show.custom.php найти :
+$full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" . $row['alt_name'];
+	
+Открыть /engine/modules/show.full.php и найти :
+$full_link = $config['http_home_url'] . $c_url . "/" . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$full_link = $config['http_home_url'] . $c_url . "/" . $row['alt_name'];
+	
+Далее найти :
+header("Location: {$re_url}{$c_url}/{$row['id']}-{$row['alt_name']}.html");
+Заменить на:
+header("Location: {$re_url}{$c_url}/{$row['alt_name']}");
+	
+Далее найти :
+$print_link = $config['http_home_url'] . $c_url . "/print:page,1," . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$print_link = $config['http_home_url'] . $c_url . "/print:page,1," . $row['alt_name'];
+	
+Чуть ниже найти (первое вхождение) и удалить:
+$row['alt_name'] = $row['id'] . "-" . $row['alt_name'];
+
+Далее найти :
+$nextpage = "<a href=\"" . $short_link . "page," . $pages . "," . $row['alt_name'] . ".html\">";
+Заменить на :
+$nextpage = "<a href=\"" . $short_link . "page," . $pages . "," . $row['alt_name'] . "\">";
+	
+Далее найти :
+else $prevpage = "<a href=\"" . $short_link . "page," . $pages . "," . $row['alt_name'] . ".html\">";
+Заменить на :
+else $prevpage = "<a href=\"" . $short_link . "page," . $pages . "," . $row['alt_name'] . "\">";
+
+Далее найти (2 РАЗА):
+$listpages .= "<a href=\"" . $short_link . "page," . $j . "," . $row['alt_name'] . ".html\">$j</a> ";
+Заменить на (2 РАЗА) :
+$listpages .= "<a href=\"" . $short_link . "page," . $j . "," . $row['alt_name'] . "\">$j</a> ";
+
+Далее найти :
+if( $config['allow_alt_url'] ) $listpages .= $nav_prefix . "<a href=\"" . $short_link . "page," . $anzahl_seiten . "," . $row['alt_name'] . ".html\">{$anzahl_seiten}</a>";
+Заменить на :
+if( $config['allow_alt_url'] ) $listpages .= $nav_prefix . "<a href=\"" . $short_link . "page," . $anzahl_seiten . "," . $row['alt_name'] . "\">{$anzahl_seiten}</a>";
+
+Далее найти :
+$replacepage = "<a href=\"" . $short_link . "page," . "\\1" . "," . $row['alt_name'] . ".html\">\\2</a>";
+Заменить на :
+$replacepage = "<a href=\"" . $short_link . "page," . "\\1" . "," . $row['alt_name'] . "\">\\2</a>";
+	
+Далее найти :
+$rel_full_link = $config['http_home_url'] . get_url( $related['category'] ) . "/" . $related['id'] . "-" . $related['alt_name'] . ".html";
+Заменить на :
+$rel_full_link = $config['http_home_url'] . get_url( $related['category'] ) . "/" . $related['alt_name'];
+
+Далее найти :
+$comments->build_navigation('navigation.tpl', $link_page . "{page}," . $news_name . ".html#comment", $user_query, $full_link);
+Заменить на :
+$comments->build_navigation('navigation.tpl', $link_page . "{page}," . $news_name . "#comment", $user_query, $full_link);
+	
+Открыть /engine/modules/addcomments.php найти :
+full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" .  $row['alt_name'];
+	
+Открыть /engine/classes/comments.class.php найти :
+$full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" . $row['post_id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$full_link = $config['http_home_url'] . get_url( $row['category'] ) . "/" . $row['alt_name'];
+	
+Открыть /engine/ajax/comments.php найти :
+$full_link = $config['http_home_url'] . $c_url . "/" . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$full_link = $config['http_home_url'] . $c_url . "/" . $row['alt_name'];
+	
+Далее найти :
+$comments->build_navigation('navigation.tpl', $link_page . "{page}," . $news_name . ".html#comment", $user_query, $full_link);
+Заменить на :
+$comments->build_navigation('navigation.tpl', $link_page . "{page}," . $news_name . "#comment", $user_query, $full_link);
+	
+Открыть /engine/init.php найти :
+if (isset ( $_GET['newsid'] )) $newsid = intval ( $_GET['newsid'] ); else $newsid = 0;
+Ниже вставить :
+if (isset ( $_GET['seourl'] )) $seourl = @$db->safesql ( strip_tags ( str_replace ( '/', '', (string)$_GET['seourl'] ) ) ); else $seourl = false;
+
+Далее найти :
+if ($category != '') $category_id = get_ID ( $cat_info, $category );
+Выше вставить :
+if(!$category && $seourl) $category = @$db->safesql ( strip_tags ( str_replace ( '/', '', (string)$_GET['seocat'] ) ) );
+
+Далее найти :
+if ($news_name != '' OR $newsid) {
+
+Выше вставить :
+if ($seourl) {
+	$allow_sql_skin = false;
+
+	foreach ( $cat_info as $cats ) {
+		if ($cats['skin'] != '') $allow_sql_skin = true;
+	}
+
+	if ($allow_sql_skin) {
+
+		$sql_skin = $db->super_query ( "SELECT category FROM " . PREFIX . "_post where  alt_name = '$seourl' AND approve" );
+
+		$base_skin = explode ( ',', $sql_skin['category'] );
+
+		$category_skin = $cat_info[$base_skin[0]]['skin'];
+
+		unset ( $sql_skin );
+		unset ( $base_skin );
+
+	}
+}
+
+Далее найти :
+if ($subaction == '' AND $newsid) $dle_module = "showfull";
+Выше вставить :
+if ($seourl) $dle_module = "showfull";
+
+Открыть /engine/engine.php найти :
+if ($year == '' AND $month == '' AND $day == '' AND !$newsid) {
+Заменить на :
+if ($year == '' AND $month == '' AND $day == '' AND !$seourl) {
+
+Далее найти :
+if ($subaction != '' or $newsid) {
+	if (! $newsid) $sql_news = "SELECT * FROM " . PREFIX . "_post LEFT JOIN " . PREFIX . "_post_extras ON (" . PREFIX . "_post.id=" . PREFIX . "_post_extras.news_id) WHERE alt_name ='$news_name' AND date >= '{$year}-{$month}-{$day}' AND date < '{$year}-{$month}-{$day}' + INTERVAL 24 HOUR LIMIT 1";
+	else $sql_news = "SELECT * FROM " . PREFIX . "_post LEFT JOIN " . PREFIX . "_post_extras ON (" . PREFIX . "_post.id=" . PREFIX . "_post_extras.news_id) WHERE  id = '{$newsid}'";
+	
+	if ($subaction == '') $subaction = "showfull";
+}
+Заменить на :
+if ($seourl) {
+	$sql_news = "SELECT * FROM " . PREFIX . "_post LEFT JOIN " . PREFIX . "_post_extras ON (" . PREFIX . "_post.id=" . PREFIX . "_post_extras.news_id) WHERE  alt_name = '{$seourl}'";
+	if ($subaction == '') $subaction = "showfull";
+}
+
+Далее найти :
+if (($subaction == "showfull" or $subaction == "addcomment") and ((! isset ( $category ) or $category == ""))) {
+Выше вставить :
+if($subaction == "showfull") $category = "";
+
+Далее найти :
+if (($subaction != '' or $newsid != '') and $news_found) $titl_e = $metatags['title'];
+Выше вставить :
+if (($seourl) and $news_found) $titl_e = $metatags['title'];
+
+Открыть /engine/classes/google.class.php найти :
+$loc = $this->home . get_url( $row['category'] ) . "/" . $row['id'] . "-" . $row['alt_name'] . ".html";
+Заменить на :
+$loc = $this->home . get_url( $row['category'] ) . "/" . $row['alt_name'];
+
+by Gameer. http://gameer.name/

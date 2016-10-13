@@ -1,0 +1,184 @@
+  <div class="post" itemscope="" itemtype="http://schema.org/Movie"> 
+  <div class="r">
+    <div class="b">
+      <div class="l">
+        <div class="post_tl">
+          <div class="post_tr">
+            <div class="post_br">
+              <div class="post_bl">
+                <div class="post_head">
+                  <div class="post_year">[xfvalue_year]</div>
+                  <h1 itemprop="name">{title}</h1>
+                  <div class="quality">
+                  <span style="margin-top:2px">
+				  
+
+                  </span>
+                  <span class="[xfvalue_quality]"></span> <span class="[xfvalue_size]"></span>
+                  </div>
+                </div>
+                <div class="short_txt">
+		
+                  <div style="float:left;" itemprop="genre">{category}</div>
+                  <div style="float:right; color: #FFCA00;" itemprop="datepublished">{date}</div>
+                  <br /><br>						  
+				  {full-story}<noindex>{include file="engine/modules/mymod.php"}</noindex>
+				      
+        <table border="0">
+		<center><script type='text/javascript' src='http://moonwalk.co/player_api?w=640&h=480'></script>
+                <div id='moonwalkPlayer'></div>  <!-- ñşäà áóäåò âûâåäåí ïëååğ !--></center>
+				<script type="text/javascript" src="http://moonwalk.co/player_api?w=640&h=480&fixvk=1"></script>
+		</table>					  
+				  				  
+					</br><p style="text-align: center;"><span style="font-size: medium; color: #ff0000;"><strong>ÒĞÅÉËÅĞÛ Ê ÔÈËÜÌÀÌ - ÎÍËÀÉÍ Â HD ÊÀ×ÅÑÒÂÅ</strong></span></p>
+					
+					<center>
+<table border="0">
+<tr>
+<td><noindex>[xfgiven_online]<script language="Javascript" type="text/javascript" src="http://moevideo.net/video.php?file=[xfvalue_online]&width=600&height=450"></script>[/xfgiven_online]</noindex></td>
+</tr>
+</table>
+</center>					  
+					
+					
+				  <div class="clear"></div>
+				  
+</div>	
+<p style="text-align: center;"><span style="font-size: medium; color: #ff0000;"><strong>ÏÎÍĞÀÂÈËÑß ÔÈËÜÌ - ÏÎÑÒÀÂÜ ËÀÉÊ È ÏÎÄÅËÈÑÜ ÍÎÂÈÍÊÎÉ Ñ ÄĞÓÇÜßÌÈ!!!</strong></span></p>
+                </div>					
+  <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+    <meta itemprop="ratingValue" content="7" />
+    <meta itemprop="bestRating" content="10" />
+    <meta itemprop="ratingCount" content="{views}"></meta>
+  </div>
+                <div class="post_desc2">
+                  <table class="post_table">
+                    <tr>
+                      <td class="post_table_l"><table class="post_desc2_table">
+
+                          <tr>
+                            <td><b>Ğåéòèíã:</b> </td>
+                            <td><div class="for_rating">{rating}</div></td>
+                          </tr>
+                          <tr>
+                          <td colspan="2">
+                 
+				 <noindex><!-- Put this script tag to the <head> of your page -->
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?101"></script>
+
+<script type="text/javascript">
+  VK.init({apiId: 3908545, onlyWidgets: true});
+</script>
+
+<!-- Put this div tag to the place, where the Like block will be -->
+<div id="vk_like"></div>
+<script type="text/javascript">
+VK.Widgets.Like("vk_like", {type: "full"});
+</script></noindex>
+				 
+                          </td>
+                          </tr>
+                        </table></td>
+                      <td class="post_table_r">
+
+                        <div class="desc">
+                          <div class="desc_l"></div>
+                          <div class="desc_c">
+                            <table>
+                              <tr>
+                                <td class="views">{views}</td>
+                                <td class="desc_rule"><div></div></td>
+                                <td class="comments_num">{comments-num}</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="desc_r"></div>
+                        </div><div class="clear"></div>
+                       <a href="#" class="look look22" onclick="notplaying(); return false;">Íå ğàáîòàåò ôèëüì?</a>
+                        </td>
+                        </tr>
+
+<noindex><div class='pluso pluso-theme-dark'><div class='pluso-more-container'><a class='pluso-more' href=''></a><ul class='pluso-counter-container'><li></li><li class='pluso-counter'></li><li></li></ul></div><a class='pluso-facebook'></a><a class='pluso-twitter'></a><a class='pluso-vkontakte'></a><a class='pluso-odnoklassniki'></a><a class='pluso-google'></a><a class='pluso-livejournal'></a><a class='pluso-moimir'></a><a class='pluso-liveinternet'></a></div>
+<script type='text/javascript'>if(!window.pluso){pluso={version:'0.9.1',url:'http://share.pluso.ru/'};h=document.getElementsByTagName('head')[0];l=document.createElement('link');l.href=pluso.url+'pluso.css';l.type='text/css';l.rel='stylesheet';s=document.createElement('script');s.src=pluso.url+'pluso.js';s.charset='UTF-8';h.appendChild(l);h.appendChild(s)}</script></noindex>
+
+
+</table>
+[not-group=5]<div style="text-align:right;padding:10px 0 0 0">[edit]<i>Ğåäàêòèğîâàòü</i>[/edit]</div>[/not-group]
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!--
+<div style="font:18px tahoma; color:#ffca00"></div>
+-->
+<noindex><div id="DIV_DA_140996"></div></noindex>
+  <div id="mm_3">
+
+  </div>
+
+<div class="rec">
+  <div class="r">
+    <div class="b">
+      <div class="l">
+        <div class="rec_tl">
+          <div class="rec_tr">
+            <div class="rec_br">
+              <div class="rec_bl">
+                <div class="rec_head">
+                  <div class="type_rec">
+              <strong>Ïîõîæèå ôèëüìû</strong>
+</div>
+
+
+                </div>
+
+
+<div class="rec_txt">
+<ul class="relatedd">
+
+{related-news}
+</ul>
+</div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="post2">
+  <div class="r">
+    <div class="b">
+      <div class="l">
+        <div class="comm_tl">
+          <div class="comm_tr">
+            <div class="comm_br">
+              <div class="comm_bl">
+                <div class="comm_head">
+
+				<div class="h4"></div>
+                </div>
+                <div class="con-pad">
+
+
+</div>
+
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{navigation}

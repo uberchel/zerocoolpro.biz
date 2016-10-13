@@ -1,0 +1,103 @@
+// Back- and prev-link.
+// Manual: http://8dle.ru/hacks/4515-ssylki-na-sleduyuschuyu-i-predyduschuyu-novosti.html
+if ($config['backnext_allow'] == "1") { 
+	if ($config['allow_cache'] != "yes") { 
+		$config['allow_cache'] = "yes"; 
+		$revert_cache = true;
+
+	} else {
+		$revert_cache = false; 
+	}
+
+	// $back_link = dle_cache("backlink", $row['id']);
+	// $next_link = dle_cache("nextlink", $row['id']);
+	
+	$back_link = $next_link = false;
+
+	// Back Link 
+	if ($back_link === FALSE) { 
+    	$backlink = $db->super_query( "SELECT id, date, title, category, alt_name FROM " . PREFIX . "_post WHERE date < FROM_UNIXTIME({$row['date']}) AND category = '{$row['category']}' AND approve = '1' ORDER BY date DESC LIMIT 0,1" );
+
+		if ($backlink) { 
+			$backlink['date'] = strtotime( $backlink['date'] ); 
+			$backlink['category'] = intval( $backlink['category'] ); 
+
+			if (strlen( $backlink['title'] ) > 75) {
+				$backlink['title'] = substr( $backlink['title'], 0, 75 ) . " ..."; 
+			}
+
+			// if ($config['allow_alt_url'] == "yes") {
+				if ($config['seo_type']) { 
+					if( $backlink['category'] and $config['seo_type'] == 2 ) { 
+						$back_link = $config['http_home_url'] . get_url( $backlink['category'] ) . "/" . $backlink['id'] . "-" . $backlink['alt_name'] . ".html"; 
+					} else { 
+						$back_link = $config['http_home_url'] . $backlink['id'] . "-" . $backlink['alt_name'] . ".html"; 
+					} 
+				} else { 
+					$back_link = $config['http_home_url'] . date( 'Y/m/d/', $backlink['date'] ) . $backlink['alt_name'] . ".html"; 
+				} 
+
+			// } else { 
+			// 	$back_link = $config['http_home_url'] . "index.php?newsid=" . $backlink['id'];
+			// } 
+		} else { 
+			$back_link = ""; 
+		}
+
+		if( $back_link ) { 
+			$back_link = "Предыдущая новость: <a href=\"" . $back_link . "\">" . stripslashes( $backlink['title'] ) . "</a>"; 
+		} 
+
+		$db->free(); 
+		create_cache( "backlink", $back_link, $row['id'] ); 
+	} 
+
+	// Next Link 
+	if ($next_link === FALSE) { 
+		$nextlink = $db->super_query( "SELECT id, date, title, category, alt_name FROM " . PREFIX . "_post WHERE date > FROM_UNIXTIME({$row['date']}) AND category = '{$row['category']}' AND approve = '1' ORDER BY date ASC LIMIT 0,1" ); 
+
+		if ($nextlink) { 
+			$nextlink['date'] = strtotime( $nextlink['date'] ); 
+			$nextlink['category'] = intval( $nextlink['category'] ); 
+
+			if( strlen( $nextlink['title'] ) > 75 ) {
+				$nextlink['title'] = substr( $nextlink['title'], 0, 75 ) . " ..."; 
+			}
+
+			// if( $config['allow_alt_url'] == "yes" ) { 
+				if ($config['seo_type'] ) { 
+					if( $nextlink['category'] and $config['seo_type'] == 2 ) { 
+						$next_link = $config['http_home_url'] . get_url( $nextlink['category'] ) . "/" . $nextlink['id'] . "-" . $nextlink['alt_name'] . ".html"; 
+					} else { 
+						$next_link = $config['http_home_url'] . $nextlink['id'] . "-" . $nextlink['alt_name'] . ".html"; 
+					} 
+				} else { 
+					$next_link = $config['http_home_url'] . date( 'Y/m/d/', $nextlink['date'] ) . $nextlink['alt_name'] . ".html"; 
+				} 
+			// } else { 
+			// 	$next_link = $config['http_home_url'] . "index.php?newsid=" . $nextlink['id'];
+			// } 
+
+		} else { 
+			$next_link = ""; 
+		} 
+
+		if( $next_link ) { 
+			$next_link = "Следующая новость: <a href=\"" . $next_link . "\">" . stripslashes( $nextlink['title'] ) . "</a>"; 
+		} 
+
+		$db->free(); 
+		create_cache( "nextlink", $next_link, $row['id'] ); 
+	}
+
+	if ($revert_cache) {
+		$config['allow_cache'] = "no"; 
+	}
+
+} else {
+	$back_link = $next_link = '';
+}
+
+// Back and Next Link Template 
+$tpl->set( '{back-link}', $back_link ); 
+$tpl->set( '{next-link}', $next_link );

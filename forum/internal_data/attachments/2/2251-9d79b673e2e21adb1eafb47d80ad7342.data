@@ -1,0 +1,26 @@
+Чтобы обновлялась ДАТА, вместе со сменой категорий, надо в файле engine/modules/cron.php
+
+Найти это:
+
+
+$sql_cron = $db->query( "SELECT news_id, category FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+
+    while ( $row = $db->get_row( $sql_cron ) ) {
+        $db->query( "UPDATE " . PREFIX . "_post SET category='{$row['category']}' WHERE id='{$row['news_id']}'" );
+    }
+
+    $db->query( "DELETE FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+    $db->free( $sql_cron );  
+
+
+
+Заменить на это:
+
+
+$newdate = ", date = '".date("Y-m-d H:i:s", $_TIME)."'";
+    $sql_cron = $db->query( "SELECT news_id, category FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+    while ( $row = $db->get_row( $sql_cron ) ) {
+        $db->query( "UPDATE " . PREFIX . "_post SET category='{$row['category']}' {$newdate} WHERE id='{$row['news_id']}'" );
+    }
+    $db->query( "DELETE FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+    $db->free( $sql_cron );

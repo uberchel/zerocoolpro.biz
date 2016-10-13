@@ -1,0 +1,253 @@
+Смена категории по наступлению даты
+По наступлению даты, новость переносится в выбранную категорию (категории).
+
+/*
+* Автор: Mofsy
+* Назначение: смена категории новости при наступлении даты
+* Хак использует одну таблицу в базе данных
+* Подходил для DLE 10 и 9.x
+* 2013 год
+*
+* Адаптацию под 10.4, 10.6 сделал: Sistemos
+* Профиль: http://zerocoolpro.biz/forum/members/sistemos.574/
+* 2016 год
+*
+*/
+
+
+1. Выполнить запрос заменив префикс на свой:
+- Для utf-8:
+CREATE TABLE IF NOT EXISTS `dle_post_expcat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `news_id` int(11) NOT NULL DEFAULT '0',
+  `expires` varchar(15) NOT NULL DEFAULT '',
+  `category` varchar(200) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `news_id` (`news_id`),
+  KEY `expires` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+- Для cp-1251
+CREATE TABLE IF NOT EXISTS `dle_post_expcat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `news_id` int(11) NOT NULL DEFAULT '0',
+  `expires` varchar(15) NOT NULL DEFAULT '',
+  `category` varchar(200) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `news_id` (`news_id`),
+  KEY `expires` (`expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+
+2. Открыть engine/inc/addnews.php
+
+- Найти (для 10.6):
+
+							 <div class="form-group">
+							  <label class="control-label col-md-2">{$lang['addnews_date']}</label>
+							  <div class="col-md-10">
+								<input data-rel="calendar" type="text" name="newdate" size="20" >&nbsp;<input class="checkbox-inline" type="checkbox" id="allow_date" name="allow_date" value="yes" checked>&nbsp;<label for="allow_date">{$lang['edit_jdate']}</label>&nbsp;<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="right" data-content="{$lang[hint_calendar]}" >?</span>{$author_info}
+							  </div>
+							</div>
+
+
+
+- Добавить ниже:
+
+							<div class="form-group">
+							  <label class="control-label col-md-2">{$lang['addnews_newdate1']}</label>
+							  <div class="col-md-10">
+								<input data-rel="calendar" type="text" name="expires_cat" size="20" >&nbsp;<label for="allow_date">{$lang['addnews_newdate2']}</label>&nbsp;<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="right" data-content="{$lang['addnews_newdate3']}" >?</span>
+								<select data-placeholder="{$lang['addnews_cat_sel']}" name="expires_category[]" id="expires_category" onchange="onCategoryChange(this)" $category_multiple style="width:100%;max-width:350px;">{$categories_list}</select>
+							  </div>
+							</div>
+
+- Найти:
+
+} else $expires = '';
+
+- Добавить ниже:
+
+	/*
+	// Получаем время истечения категории
+	// в переменную $expires_cat
+	*/
+	if( trim( $_POST['expires_cat'] ) != "" ) {
+		$expires_cat = $_POST['expires_cat'];
+		if( (($expires_cat = strtotime( $expires_cat )) === - 1) OR !$expires_cat ) {
+			msg( "error", $lang['addnews_error'], $lang['addnews_erdate'], "javascript:history.go(-1)" );
+		}
+	} else $expires_cat = '';
+
+
+- Найти:
+
+if( $_POST['tags'] != "" and $approve ) {
+
+- Добавить ВЫШЕ:
+
+	/*
+	// Если время истечения не пустое
+	// То заносим в базу данных это время и категории куда перенести по истечению
+	*/
+	if( $expires_cat ) {
+    $expires_category = $_POST['expires_category'];
+    if( !count( $expires_category ) ) {
+      $expires_category = array ();
+      $expires_category[] = '0';
+    }
+    $expires_category_list = array();
+    foreach ( $expires_category as $value ) {
+      $expires_category_list[] = intval($value);
+    }
+    $expires_category_list = $db->safesql( implode( ',', $expires_category_list ) );
+		$db->query( "INSERT INTO " . PREFIX . "_post_expcat (news_id, expires, category) VALUES('{$row}', '$expires_cat', '$expires_category_list')" );
+	}
+
+3. Открыть engine/modules/cron.php
+
+- Найти:
+
+	$db->query( "DELETE FROM " . USERPREFIX . "_banned WHERE days != '0' AND date < '$_TIME' AND users_id = '0'" );
+	@unlink( ENGINE_DIR . '/cache/system/banned.php' );
+
+
+- Добавить ниже:
+
+	$sql_cron = $db->query( "SELECT news_id, category FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+
+	while ( $row = $db->get_row( $sql_cron ) ) {
+		$db->query( "UPDATE " . PREFIX . "_post SET category='{$row['category']}' WHERE id='{$row['news_id']}'" );
+	}
+
+	$db->query( "DELETE FROM " . PREFIX . "_post_expcat WHERE expires <= '" . $_TIME . "'" );
+	$db->free( $sql_cron );	
+
+
+2. Открыть engine/inc/editnews.php
+
+- Найти:
+
+	$cat_list = explode( ',', $row['category'] );
+
+	$have_perm = 0;
+
+- Добавить ниже:
+
+	$sql_expcat = $db->query( "SELECT category FROM " . PREFIX . "_post_expcat WHERE news_id='{$row['id']}'" );
+	$sql_expcat = $db->get_row( $sql_expcat );
+        $cat_list_exp = explode( ',', $sql_expcat['category'] );
+        $db->free( $sql_expcat );
+
+- Найти:
+
+  $categories_list = CategoryNewsSelection( $cat_list, 0 );
+
+- Добавить ниже:
+
+  $categories_list_exp = CategoryNewsSelection( $cat_list_exp, 0 );
+
+
+- Найти:
+
+	if ( $expires['expires'] ) $expires['expires'] = date("Y-m-d", $expires['expires']);
+
+
+- Добавить ниже:
+
+	$expires_cat = $db->super_query( "SELECT * FROM " . PREFIX . "_post_expcat where news_id = '{$row['id']}'" );
+	if ( $expires_cat['expires'] ) $expires_cat['expires'] = date("Y-m-d  H:i:s", $expires_cat['expires']);
+
+
+- Найти:
+
+		<div class="form-group">
+		  <label class="control-label col-md-2">{$lang['edit_edate']}</label>
+		  <div class="col-md-10">
+			<input type="text" name="newdate" data-rel="calendar" size="20" value="{$row['date']}">&nbsp;<input class="checkbox-inline" type="checkbox" name="allow_date" id="allow_date" value="yes" onclick="CheckStatus(addnews)" checked><label for="allow_date">&nbsp;{$lang['edit_ndate']}</label>&nbsp;<input class="checkbox-inline" type="checkbox" name="allow_now" id="allow_now" value="yes" disabled>&nbsp;<label for="allow_now">{$lang['edit_jdate']}</label>
+		  </div>
+		 </div>
+
+- Добавить ниже:
+
+							<div class="form-group">
+							  <label class="control-label col-md-2">{$lang['addnews_newdate1']}</label>
+							  <div class="col-md-10">
+								<input data-rel="calendar" type="text" name="expires_cat" id="e_date_cat" size="20" value="{$expires_cat['expires']}">&nbsp;<label for="allow_date">{$lang['addnews_newdate2']}</label>&nbsp;<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="right" data-content="{$lang['addnews_newdate3']}" >?</span>
+								<select data-placeholder="{$lang['addnews_cat_sel']}" name="expires_category[]" id="expires_category" onchange="onCategoryChange(this)" {$category_multiple} style="width:350px;">{$categories_list_exp}</select>
+							  </div>
+							</div>	
+
+
+
+
+
+- Найти:
+
+	$no_permission = FALSE;
+	$okdeleted = FALSE;
+	$okchanges = FALSE;
+
+- Добавить ВЫШЕ:
+
+	if ($_POST['expires_cat'] ) {
+
+		$expires_cat_change = true;
+	} else $expires_cat_change = false;
+
+
+- Найти:
+
+        // Смена автора публикации
+				if( $member_id['user_group'] == 1 AND $_POST['new_author'] != $_POST['old_author'] ) {
+
+
+Добавить ВЫШЕ:
+
+
+				if ( $expires_cat_change ) {
+          /*
+          // Получаем время истечения категории
+          // в переменную $expires_cat
+          */
+          if( trim( $_POST['expires_cat'] ) != "" ) {
+            $expires_cat = $_POST['expires_cat'];
+            if( (($expires_cat = strtotime( $expires_cat )) === - 1) OR !$expires_cat ) {
+              msg( "error", $lang['addnews_error'], $lang['addnews_erdate'], "javascript:history.go(-1)" );
+            }
+          } else $expires_cat = '';
+          /*
+          // Если время истечения не пустое то заносим в базу
+          // Иначе удаляем
+          */
+					if( $expires_cat ) {
+						$db->query( "DELETE FROM " . PREFIX . "_post_expcat WHERE news_id='$item_db[0]'" );
+
+            $expires_category = $_POST['expires_category'];
+            if( !count( $expires_category ) ) {
+              $expires_category = array ();
+              $expires_category[] = '0';
+            }
+            $expires_category_list = array();
+            foreach ( $expires_category as $value ) {
+              $expires_category_list[] = intval($value);
+            }
+            $expires_category_list = $db->safesql( implode( ',', $expires_category_list ) );
+            $db->query( "INSERT INTO " . PREFIX . "_post_expcat (news_id, expires, category) VALUES('$item_db[0]', '$expires_cat', '$expires_category_list')" );
+          } else {
+						$db->query( "DELETE FROM " . PREFIX . "_post_expcat WHERE news_id='$item_db[0]'" );
+					}
+				}
+
+
+3.  Открыть language/Russian/adminpanel.lng
+
+- Найти: 
+
+'addnews_date'		=>	"Дата:",
+
+
+- Добавить ниже:
+
+'addnews_newdate1'  =>  "Когда наступит дата:",
+'addnews_newdate2'  =>  "То перенести в:",
+'addnews_newdate3'  =>  "Когда наступит указанная дата, то новость будет перемещена в указанные категории.",

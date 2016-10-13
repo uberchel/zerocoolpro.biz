@@ -1,0 +1,71 @@
+Установка:
+
+1) Залить все файлы из папки upload кроме hdlight_install.php (для ручной установки он не нужен)
+
+2) Сделайте импорт файла базы db(*).sql
+	* - выберите файл с кодировкой идентичной вашей
+	(перед этим убедитесь что префикс названий таблиц идентичен вашей базе, если нет замените)
+
+3) Пройдите по ссылке http://вашсайт.ру/hdlight_admin_install.php чтобы установить админпанель модуля (после удалите этот файл)
+
+4) Открыть файл engine/inc/addnews.php
+
+	найти этот код:
+
+		echo <<<HTML
+		</div>
+		</div>
+		{$output}
+
+	перед ним вставить этот код:
+
+		/* HD Light Initialization Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Присоединяем к выводу доп. полей кнопку поиска на HD Light
+		$output .= $hdlight->get_button();
+
+		/* HD Light Initialization End */
+
+5) Открыть файл engine/inc/editnews.php
+
+	найти этот код:
+
+		echo <<<HTML
+		</div>
+		</div>
+		{$output}
+
+	перед ним вставить этот код:
+
+		/* HD Light Initialization Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Присоединяем к выводу доп. полей кнопку поиска на HD Light
+		$output .= $hdlight->get_button();
+
+		/* HD Light Initialization End */
+
+6) Открыть файл engine/modules/show.full.php
+
+	найти этот код:
+
+		else $tpl->load_template( 'fullstory.tpl' );
+
+	после него вставить этот код:
+
+		/* HD Light Add Player Begin */
+
+		// Инициализация базового функционала модуля
+		require_once ENGINE_DIR . '/inc/hdlight/init.php';
+
+		// Добавляем плеер
+		$hdlight->add_player($row);
+
+		/* HD Light Add Player Begin */
+
+7) Готово! =)
